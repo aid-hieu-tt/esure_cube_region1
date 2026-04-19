@@ -53,9 +53,16 @@ function buildCubeFilters(filters: FilterState): Array<{ member: string; operato
   }
   if (filters.products.length > 0) {
     cubeFilters.push({
-      member: 'dashboard_overview.order_items_packageName',
+      member: 'dashboard_overview.order_items_productName',
       operator: 'equals',
       values: filters.products,
+    });
+  }
+  if (filters.packages && filters.packages.length > 0) {
+    cubeFilters.push({
+      member: 'dashboard_overview.order_items_packageName',
+      operator: 'equals',
+      values: filters.packages,
     });
   }
   if (filters.durations.length > 0) {
@@ -89,7 +96,8 @@ function buildCrossFilters(crossFilters: CrossFilterState, excludeKey?: string) 
     regionCodes: 'dashboard_overview.user_agencies_regionName',
     branchCodes: 'dashboard_overview.user_agencies_branchName',
     paymentStatuses: 'dashboard_overview.paymentstatus',
-    products: 'dashboard_overview.order_items_packageName',
+    products: 'dashboard_overview.order_items_productName',
+    packages: 'dashboard_overview.order_items_packageName',
     durations: 'dashboard_overview.order_items_durationName',
     providers: 'dashboard_overview.order_items_providerName',
     paymentMethod: 'dashboard_overview.paymentmethod'
@@ -111,7 +119,7 @@ function buildCrossFilters(crossFilters: CrossFilterState, excludeKey?: string) 
 
 export const useFetchDashboardData = (
   dateRange: DateRangeValue = 'This month',
-  filters: FilterState = { agencies: [], products: [], paymentStatuses: [], durations: [], providers: [], partners: [], branchCodes: [] },
+  filters: FilterState = { agencies: [], products: [], packages: [], paymentStatuses: [], durations: [], providers: [], partners: [], branchCodes: [] },
   crossFilters: CrossFilterState = {}
 ) => {
   const [data, setData] = useState<DashboardData | null>(null);

@@ -24,7 +24,7 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
   }, [topPerformers, filters]);
 
   const pageSize = 10;
-  
+
   const topTotalPages = Math.ceil(filteredTop.length / pageSize);
   const pagedTop = filteredTop.slice(topPage * pageSize, (topPage + 1) * pageSize);
 
@@ -43,7 +43,7 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
           <thead className="bg-slate-800 text-white">
             <tr>
               <th className="border-r border-white/20 px-3 py-2 font-semibold">Chi nhánh</th>
-              <th className="border-r border-white/20 px-3 py-2 font-semibold">Sản phẩm</th>
+              <th className="border-r border-white/20 px-3 py-2 font-semibold">Tên gói</th>
               <th className="px-3 py-2 text-center font-semibold">Tổng</th>
             </tr>
           </thead>
@@ -53,18 +53,18 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
               const isProductSelected = filters['products'] === item.businessUnit;
               return (
               <tr
-                key={item.id} 
+                key={item.id}
                 className="border-b border-slate-200 transition-colors last:border-0 hover:bg-slate-50"
               >
-                <td 
+                <td
                   className={`cursor-pointer border-r border-slate-200 px-3 py-2 hover:bg-blue-50 hover:text-blue-700 ${isRegionSelected ? 'bg-blue-50/70 font-bold text-blue-800' : ''}`}
                   onClick={() => toggleFilter('branchCodes', item.region)}
                 >
                   {item.region}
                 </td>
-                <td 
+                <td
                   className={`cursor-pointer border-r border-slate-200 px-3 py-2 hover:bg-blue-50 hover:text-blue-700 ${isProductSelected ? 'bg-blue-50/70 font-bold text-blue-800' : ''}`}
-                  onClick={() => toggleFilter('products', item.businessUnit)}
+                  onClick={() => toggleFilter('packages', item.businessUnit)}
                 >
                   {item.businessUnit}
                 </td>
@@ -74,7 +74,7 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
             })}
           </tbody>
         </table>
-        <PaginationFooter 
+        <PaginationFooter
           currentPage={topPage}
           totalPages={topTotalPages}
           onPageChange={setTopPage}

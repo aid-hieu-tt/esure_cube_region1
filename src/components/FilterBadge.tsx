@@ -10,6 +10,7 @@ export const FilterBadge: React.FC = () => {
     branchCodes: 'Chi nhánh',
     paymentStatuses: 'Trạng thái TT',
     products: 'Sản phẩm',
+  packages: 'Tên gói',
     durations: 'Thời hạn',
     providers: 'Nhà bảo hiểm',
     paymentMethod: 'Thanh toán'

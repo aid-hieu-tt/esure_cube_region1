@@ -87,6 +87,7 @@ export const PARTNER_DETAIL_QUERY: CubeQuery = {
     'dashboard_overview.agencies_name',
     'dashboard_overview.user_agencies_regionName',
     'dashboard_overview.user_agencies_branchName',
+    'dashboard_overview.order_items_productName',
     'dashboard_overview.order_items_packageName',
     'dashboard_overview.order_items_durationName',
     'dashboard_overview.order_items_providerName',

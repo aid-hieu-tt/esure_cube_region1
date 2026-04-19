@@ -67,10 +67,10 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
                 data: muiData,
                 outerRadius: 105,
                 innerRadius: 0,
-                paddingAngle: 1, 
-                cornerRadius: 3, 
+                paddingAngle: 1,
+                cornerRadius: 3,
                 arcLabel: (item) => `${((item.value / total) * 100).toFixed(0)}%`,
-                arcLabelMinAngle: 15, 
+                arcLabelMinAngle: 15,
                 valueFormatter: (item: number | { value?: number }) => {
                   const val = typeof item === 'number' ? item : item?.value;
                   return val !== undefined && val !== null ? formatVND(val) : '';
@@ -92,17 +92,17 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
         <div className="w-[50%] h-full flex flex-col justify-center px-4 overflow-y-auto">
           <div className="flex flex-col gap-1.5">
             {muiData.map((d) => (
-              <div 
-                key={d.id} 
+              <div
+                key={d.id}
                 className="flex cursor-pointer items-center rounded p-1 text-[12px] text-slate-800 transition-colors hover:bg-slate-100"
                 onClick={() => toggleFilter(dimension, d.label)}
               >
-                <span 
+                <span
                   className="mr-2.5 h-2.5 w-2.5 shrink-0 rounded-full shadow-sm transition-all"
                   style={{ backgroundColor: d.color, opacity: filters[dimension] && filters[dimension] !== d.label ? 0.3 : 1 }}
                 ></span>
-                <span 
-                  className={`font-semibold truncate transition-all ${filters[dimension] === d.label ? 'text-blue-700' : ''}`} 
+                <span
+                  className={`font-semibold truncate transition-all ${filters[dimension] === d.label ? 'text-blue-700' : ''}`}
                   title={d.label}
                   style={{ opacity: filters[dimension] && filters[dimension] !== d.label ? 0.4 : 1 }}
                 >
@@ -130,7 +130,7 @@ interface DashboardPieChartsProps {
 export const DashboardPieCharts: React.FC<DashboardPieChartsProps> = ({ pieCharts }) => {
   return (
     <div className="mb-1 grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
-      <ChartBox title="Ngành hàng" dimension="productName" data={pieCharts.product} />
+      <ChartBox title="Sản phẩm" dimension="products" data={pieCharts.product} />
       <ChartBox title="Thời hạn" dimension="durations" data={pieCharts.duration} />
       <ChartBox title="Nhà bảo hiểm" dimension="providers" data={pieCharts.provider} />
       <ChartBox title="Thanh toán" dimension="paymentMethod" data={pieCharts.payment} />
