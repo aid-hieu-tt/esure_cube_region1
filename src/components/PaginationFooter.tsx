@@ -14,35 +14,35 @@ export const PaginationFooter: React.FC<PaginationFooterProps> = ({
   if (totalPages <= 1) return null; // Hide if only 1 page
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
+    <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50/60 px-4 py-3 sm:px-6">
       <div className="flex justify-between flex-1 sm:hidden">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 0}
-          className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Trước
         </button>
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages - 1}
-          className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative ml-3 inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Tiếp
         </button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-slate-700">
             Trang <span className="font-medium">{currentPage + 1}</span> / <span className="font-medium">{totalPages}</span>
           </p>
         </div>
         <div>
-          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+          <nav className="relative z-0 inline-flex rounded-md shadow-sm" aria-label="Pagination">
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 0}
-              className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span className="sr-only">Previous</span>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -52,7 +52,7 @@ export const PaginationFooter: React.FC<PaginationFooterProps> = ({
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage >= totalPages - 1}
-              className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span className="sr-only">Next</span>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

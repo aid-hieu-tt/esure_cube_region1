@@ -38,9 +38,30 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   branchOptions = [],
   optionsLoading = false,
 }) => {
+  const selectedFilterCount =
+    filters.branchCodes.length +
+    filters.paymentStatuses.length +
+    filters.products.length +
+    filters.durations.length +
+    filters.providers.length +
+    filters.partners.length;
+
   return (
-    <div className="bg-white p-4 rounded-md shadow-sm mb-6 border border-gray-200">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+    <section className="relative overflow-visible rounded-3xl border border-slate-200/80 bg-white/85 p-4 shadow-md shadow-slate-200/70 backdrop-blur md:p-5">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/35 to-transparent" />
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Bộ lọc</p>
+          <h2 className="mt-1 text-base font-extrabold tracking-tight text-slate-900">Tinh chỉnh dữ liệu hiển thị</h2>
+          <p className="mt-1 text-sm font-medium text-slate-600">Chọn nhiều giá trị cho từng chiều dữ liệu để soi sâu theo nhu cầu.</p>
+        </div>
+
+        <div className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200/80 bg-white/70 px-3 py-1 text-xs font-semibold text-slate-600 sm:self-auto">
+          <span className="rounded-full bg-slate-900 px-2 py-0.5 text-[11px] font-bold text-white">{selectedFilterCount}</span>
+          <span>tiêu chí đang chọn</span>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
 
         <MultiSelectDropdown
           label="Chi nhánh"
@@ -85,6 +106,6 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           loading={optionsLoading}
         />
       </div>
-    </div>
+    </section>
   );
 };

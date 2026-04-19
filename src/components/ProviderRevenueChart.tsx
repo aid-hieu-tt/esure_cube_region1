@@ -38,32 +38,36 @@ export const ProviderRevenueChart: React.FC<ProviderRevenueChartProps> = ({ data
 
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden p-8 text-center text-gray-400">
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 text-center text-slate-400 shadow-md shadow-slate-200/70">
         Không có dữ liệu để hiển thị
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden">
-      <div className="bg-[#d9e1f2] text-center py-2 font-bold text-gray-900 border-b border-gray-300">
-        Doanh thu theo Nhà bảo hiểm
+    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md shadow-slate-200/70">
+      <div className="border-b border-blue-100 bg-gradient-to-r from-blue-50 via-sky-50 to-white px-4 py-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-900/60">Xu hướng</p>
+        <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <h3 className="text-sm font-extrabold tracking-tight text-slate-900">Doanh thu theo nhà bảo hiểm</h3>
+          <span className="text-xs font-semibold text-slate-600">Click legend/điểm để lọc</span>
+        </div>
       </div>
       <div className="p-4">
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 11, fill: '#6b7280' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               tickLine={false}
-              axisLine={{ stroke: '#e5e7eb' }}
+              axisLine={{ stroke: '#cbd5e1' }}
             />
             <YAxis
               tickFormatter={formatVND}
-              tick={{ fontSize: 11, fill: '#6b7280' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               tickLine={false}
-              axisLine={{ stroke: '#e5e7eb' }}
+              axisLine={{ stroke: '#cbd5e1' }}
               width={55}
             />
             <Tooltip
@@ -71,18 +75,18 @@ export const ProviderRevenueChart: React.FC<ProviderRevenueChartProps> = ({ data
               labelFormatter={(label) => `Ngày: ${label}`}
               contentStyle={{
                 backgroundColor: '#fff',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
+                border: '1px solid #cbd5e1',
+                borderRadius: '12px',
                 fontSize: '12px',
-                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                boxShadow: '0 12px 28px -12px rgba(15, 23, 42, 0.35)',
               }}
             />
             <Legend
               wrapperStyle={{ fontSize: '12px', paddingTop: '8px', cursor: 'pointer' }}
               iconType="circle"
               iconSize={8}
-              onClick={(e: any) => {
-                if (e && e.dataKey) toggleFilter('providers', String(e.dataKey));
+              onClick={(entry: { dataKey?: string }) => {
+                if (entry?.dataKey) toggleFilter('providers', String(entry.dataKey));
               }}
             />
             {providerNames.map((name, i) => {
@@ -99,7 +103,7 @@ export const ProviderRevenueChart: React.FC<ProviderRevenueChartProps> = ({ data
                   dot={{ r: 3, fill: PROVIDER_COLORS[name] || DEFAULT_COLORS[i % DEFAULT_COLORS.length], opacity: isFilteredOut ? 0.2 : 1 }}
                   activeDot={{ 
                     r: 5, 
-                    onClick: (event: any, payload: any) => toggleFilter('providers', payload.dataKey),
+                    onClick: (_event: unknown, payload: { dataKey: string }) => toggleFilter('providers', payload.dataKey),
                     style: { cursor: 'pointer' }
                   }}
                   connectNulls
