@@ -32,6 +32,7 @@ export default function PartnerDetailTable({ data }: PartnerDetailTableProps) {
     if (filters['branchCodes']) result = result.filter(r => r.chiNhanh === filters['branchCodes']);
 
     if (filters['products']) result = result.filter(r => r.sanPham === filters['products']);
+    if (filters['packages']) result = result.filter(r => r.tenGoi === filters['packages']);
     if (filters['providers']) result = result.filter(r => r.nhaBaoHiem === filters['providers']);
     if (filters['paymentMethod']) result = result.filter(r => r.phuongThucThanhToan === filters['paymentMethod']);
 
@@ -42,6 +43,7 @@ export default function PartnerDetailTable({ data }: PartnerDetailTableProps) {
       row.chiNhanh?.toLowerCase().includes(lowerFilter) ||
 
       row.sanPham?.toLowerCase().includes(lowerFilter) ||
+      row.tenGoi?.toLowerCase().includes(lowerFilter) ||
       row.nhaBaoHiem?.toLowerCase().includes(lowerFilter) ||
       row.partnerName?.toLowerCase().includes(lowerFilter)
     );
@@ -57,6 +59,10 @@ export default function PartnerDetailTable({ data }: PartnerDetailTableProps) {
     columnHelper.accessor('sanPham', {
       header: 'Sản phẩm',
       cell: info => <span className="text-gray-700 cursor-pointer hover:underline decoration-gray-700 underline-offset-2" onClick={() => toggleFilter('products', info.getValue())}>{info.getValue()}</span>,
+    }),
+    columnHelper.accessor('tenGoi', {
+      header: 'Tên gói',
+      cell: info => <span className="text-gray-700 cursor-pointer hover:underline decoration-gray-700 underline-offset-2 font-medium" onClick={() => toggleFilter('packages', info.getValue())}>{info.getValue()}</span>,
     }),
     columnHelper.accessor('thoiHan', {
       header: 'Thời hạn',

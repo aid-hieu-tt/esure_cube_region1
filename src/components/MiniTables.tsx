@@ -39,7 +39,7 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
           <thead className="bg-[#002060] text-white">
             <tr>
               <th className="py-2 px-3 font-medium border-r border-white/20">Chi nhánh</th>
-              <th className="py-2 px-3 font-medium border-r border-white/20">Sản phẩm</th>
+              <th className="py-2 px-3 font-medium border-r border-white/20">Tên gói</th>
               <th className="py-2 px-3 font-medium text-center">Tổng</th>
             </tr>
           </thead>
@@ -60,7 +60,7 @@ export const MiniTables: React.FC<MiniTablesProps> = ({ topPerformers, inactiveU
                 </td>
                 <td 
                   className={`py-2 px-3 border-r border-gray-200 cursor-pointer hover:bg-blue-50 hover:text-blue-700 ${isProductSelected ? 'font-bold text-blue-800 bg-blue-50/50' : ''}`}
-                  onClick={() => toggleFilter('products', item.businessUnit)}
+                  onClick={() => toggleFilter('packages', item.businessUnit)}
                 >
                   {item.businessUnit}
                 </td>

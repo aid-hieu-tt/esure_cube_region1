@@ -129,7 +129,7 @@ interface DashboardPieChartsProps {
 export const DashboardPieCharts: React.FC<DashboardPieChartsProps> = ({ pieCharts }) => {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <ChartBox title="Ngành hàng" dimension="productName" data={pieCharts.product} />
+      <ChartBox title="Sản phẩm" dimension="products" data={pieCharts.product} />
       <ChartBox title="Thời hạn" dimension="durations" data={pieCharts.duration} />
       <ChartBox title="Nhà bảo hiểm" dimension="providers" data={pieCharts.provider} />
       <ChartBox title="Thanh toán" dimension="paymentMethod" data={pieCharts.payment} />

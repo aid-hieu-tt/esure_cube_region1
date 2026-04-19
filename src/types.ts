@@ -62,6 +62,7 @@ export interface PartnerDetailRow {
   vung: string;
   chiNhanh: string;
   sanPham: string;
+  tenGoi: string;
   thoiHan: string;
   nhaBaoHiem: string;
   phuongThucThanhToan: string;

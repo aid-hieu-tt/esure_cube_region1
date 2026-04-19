@@ -15,7 +15,8 @@ export interface FilterOption {
 export interface FilterOptions {
   cities: FilterOption[];
   statuses: FilterOption[];
-  products: FilterOption[];
+  productOptions: FilterOption[];
+  packageOptions: FilterOption[];
   paymentStatuses: FilterOption[];
   durations: FilterOption[];
   providers: FilterOption[];
@@ -41,7 +42,8 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
   const [options, setOptions] = useState<FilterOptions>({
     cities: [],
     statuses: [],
-    products: [],
+    productOptions: [],
+    packageOptions: [],
     paymentStatuses: [],
     durations: [],
     providers: [],
@@ -73,7 +75,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
           }),
           cubeLoad({
             measures: ['dashboard_overview.order_items_totalRevenue'],
-            dimensions: ['dashboard_overview.order_items_packageName'],
+            dimensions: ['dashboard_overview.order_items_productName', 'dashboard_overview.order_items_packageName'],
             timeDimensions: [itemTimeDim],
             order: { 'dashboard_overview.order_items_totalRevenue': 'desc' },
             limit: 200,
@@ -124,7 +126,8 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
         setOptions({
           cities: toOptionsWithMetric(cityRows, 'dashboard_overview.agencies_name', 'dashboard_overview.totalRevenue'),
           statuses: toOptionsWithMetric(statusRows, 'dashboard_overview.status', 'dashboard_overview.totalRevenue'),
-          products: toOptionsWithMetric(productRows, 'dashboard_overview.order_items_packageName', 'dashboard_overview.order_items_totalRevenue'),
+          productOptions: toOptionsWithMetric(productRows, 'dashboard_overview.order_items_productName', 'dashboard_overview.order_items_totalRevenue'),
+          packageOptions: toOptionsWithMetric(productRows, 'dashboard_overview.order_items_packageName', 'dashboard_overview.order_items_totalRevenue'),
           paymentStatuses: toOptionsWithMetric(catRows, 'dashboard_overview.paymentstatus', 'dashboard_overview.totalRevenue'),
           durations: toOptionsWithMetric(durationRows, 'dashboard_overview.order_items_durationName', 'dashboard_overview.order_items_totalRevenue'),
           providers: toOptionsWithMetric(providerRows, 'dashboard_overview.order_items_providerName', 'dashboard_overview.order_items_totalRevenue'),
