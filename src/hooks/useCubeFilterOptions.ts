@@ -59,17 +59,21 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
         const orderTimeDim = { dimension: 'dashboard_overview.orderdate', dateRange };
         const itemTimeDim = { dimension: 'dashboard_overview.order_items_createdat', dateRange };
 
+        const regionFilter = { member: 'dashboard_overview.user_agencies_regionName', operator: 'equals', values: ['VIETBANK Miền Nam'] };
+
         const [cityRows, statusRows, productRows, catRows, durationRows, providerRows, paymentRows, branchRows] = await Promise.all([
           cubeLoad({
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.agencies_name'],
             timeDimensions: [orderTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 100,
           }),
           cubeLoad({
             dimensions: ['dashboard_overview.status'],
             timeDimensions: [orderTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.status': 'asc' },
             limit: 50,
           }),
@@ -77,6 +81,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             measures: ['dashboard_overview.order_items_totalRevenue'],
             dimensions: ['dashboard_overview.order_items_productName', 'dashboard_overview.order_items_packageName'],
             timeDimensions: [itemTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.order_items_totalRevenue': 'desc' },
             limit: 200,
           }),
@@ -84,6 +89,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.paymentstatus'],
             timeDimensions: [orderTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 50,
           }),
@@ -91,6 +97,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             measures: ['dashboard_overview.order_items_totalRevenue'],
             dimensions: ['dashboard_overview.order_items_durationName'],
             timeDimensions: [itemTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.order_items_totalRevenue': 'desc' },
             limit: 100,
           }),
@@ -98,6 +105,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             measures: ['dashboard_overview.order_items_totalRevenue'],
             dimensions: ['dashboard_overview.order_items_providerName'],
             timeDimensions: [itemTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.order_items_totalRevenue': 'desc' },
             limit: 50,
           }),
@@ -105,6 +113,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.paymentmethod'],
             timeDimensions: [orderTimeDim],
+            filters: [regionFilter],
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 50,
           }),
@@ -112,11 +121,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
           cubeLoad({
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.user_agencies_branchName'],
-            filters: [{
-              member: 'dashboard_overview.user_agencies_regionName',
-              operator: 'equals',
-              values: ['VIETBANK Miền Nam'],
-            }],
+            filters: [regionFilter],
             timeDimensions: [orderTimeDim],
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 40,
