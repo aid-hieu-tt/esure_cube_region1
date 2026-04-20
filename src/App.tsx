@@ -6,5 +6,9 @@
 import { DashboardContainer } from './components/DashboardContainer';
 
 export default function App() {
-  return <DashboardContainer />;
+  return (
+    <div className="font-sans antialiased text-slate-900">
+      <DashboardContainer />
+    </div>
+  );
 }

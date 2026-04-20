@@ -67,9 +67,9 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   if (loading) {
     return (
       <div className="relative">
-        <div className="mb-1 text-sm font-medium text-gray-700">{label}</div>
-        <div className="w-full bg-gray-100 border border-gray-200 rounded-md px-3 py-2 text-sm animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-24"></div>
+        <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</div>
+        <div className="w-full animate-pulse rounded-xl border border-slate-200 bg-slate-100 px-3 py-2.5 text-sm">
+          <div className="h-4 w-24 rounded bg-slate-200"></div>
         </div>
       </div>
     );
@@ -77,11 +77,11 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div className="mb-1 text-sm font-medium text-gray-700">{label}</div>
+      <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</div>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-left focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left text-sm text-slate-700 shadow-sm transition-colors duration-200 hover:border-blue-200 hover:bg-blue-50/60 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <span className="truncate mr-2">
           {selectedIds.length === 0 
@@ -90,21 +90,21 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
               ? 'Tất cả' 
               : `Đã chọn (${selectedIds.length})`}
         </span>
-        <ChevronDown size={16} className="text-gray-400" />
+        <ChevronDown size={16} className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute z-20 mt-1 w-full min-w-[260px] bg-white border border-gray-200 rounded-md shadow-lg max-h-72 overflow-auto">
+        <div className="absolute z-20 mt-2 max-h-72 w-full min-w-[260px] overflow-auto rounded-xl border border-slate-200 bg-white shadow-xl shadow-slate-200/70">
           {/* Header with metric column label */}
           {hasMetrics && (
-            <div className="flex items-center justify-between px-3 py-1.5 border-b border-gray-200 bg-gray-50">
-              <span className="text-xs font-semibold text-gray-500 uppercase">{label}</span>
-              <span className="text-xs font-semibold text-gray-500 uppercase">Doanh thu</span>
+            <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-3 py-2">
+              <span className="text-xs font-semibold uppercase text-slate-500">{label}</span>
+              <span className="text-xs font-semibold uppercase text-slate-500">{metricLabel || 'Doanh thu'}</span>
             </div>
           )}
           <div className="p-2">
-            <label className="flex items-center px-2 py-1.5 hover:bg-gray-50 cursor-pointer rounded">
-              <div className="relative flex items-center justify-center w-4 h-4 mr-2 border border-gray-300 rounded bg-white flex-shrink-0">
+            <label className="flex cursor-pointer items-center rounded-lg px-2 py-1.5 hover:bg-slate-50">
+              <div className="relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-slate-300 bg-white">
                 <input
                   type="checkbox"
                   className="absolute opacity-0 cursor-pointer w-full h-full"
@@ -112,19 +112,19 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
                   onChange={handleToggleAll}
                 />
                 {(isAllSelected || isIndeterminate) && (
-                  <div className={`w-full h-full flex items-center justify-center rounded bg-blue-500`}>
+                  <div className="flex h-full w-full items-center justify-center rounded bg-blue-500">
                     {isAllSelected ? <Check size={12} className="text-white" /> : <div className="w-2 h-0.5 bg-white rounded-full" />}
                   </div>
                 )}
               </div>
               <span className="text-sm font-medium flex-1">Chọn tất cả</span>
             </label>
-            <div className="h-px bg-gray-200 my-1"></div>
+            <div className="my-1 h-px bg-slate-200"></div>
             {options.map(option => {
               const isSelected = selectedIds.includes(option.id);
               return (
-                <label key={option.id} className="flex items-center px-2 py-1.5 hover:bg-gray-50 cursor-pointer rounded">
-                  <div className="relative flex items-center justify-center w-4 h-4 mr-2 border border-gray-300 rounded bg-white flex-shrink-0">
+                <label key={option.id} className="flex cursor-pointer items-center rounded-lg px-2 py-1.5 hover:bg-slate-50">
+                  <div className="relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-slate-300 bg-white">
                     <input
                       type="checkbox"
                       className="absolute opacity-0 cursor-pointer w-full h-full"
@@ -132,14 +132,14 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
                       onChange={() => handleToggleOption(option.id)}
                     />
                     {isSelected && (
-                      <div className="w-full h-full flex items-center justify-center rounded bg-blue-500">
+                      <div className="flex h-full w-full items-center justify-center rounded bg-blue-500">
                         <Check size={12} className="text-white" />
                       </div>
                     )}
                   </div>
-                  <span className="text-sm flex-1 truncate">{option.label}</span>
+                  <span className="flex-1 truncate text-sm">{option.label}</span>
                   {option.metric !== undefined && option.metric > 0 && (
-                    <span className="text-xs text-gray-500 font-medium ml-2 whitespace-nowrap">
+                    <span className="ml-2 whitespace-nowrap text-xs font-medium text-slate-500">
                       {formatMetric(option.metric)}
                     </span>
                   )}

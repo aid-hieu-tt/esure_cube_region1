@@ -146,19 +146,19 @@ export const LookerDateRangePicker: React.FC<LookerDateRangePickerProps> = ({
     <div className="relative inline-block text-left" ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-white px-3 py-2 rounded-md shadow-sm border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50/70 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        <Calendar size={16} className="text-gray-500" />
+        <Calendar size={16} className="text-slate-500" />
         <span>{displayLabel}</span>
-        <ChevronDown size={16} className="text-gray-500 ml-1" />
+        <ChevronDown size={16} className={`ml-1 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 lg:w-[480px] bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50 flex flex-col lg:flex-row overflow-hidden border border-gray-200">
+        <div className="absolute right-0 z-50 mt-2 flex w-80 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/70 ring-1 ring-black/5 lg:w-[480px] lg:flex-row">
           
           {/* Presets Column */}
-          <div className="w-full lg:w-1/2 max-h-80 overflow-y-auto border-b lg:border-b-0 lg:border-r border-gray-200 py-1 flex flex-col">
-            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50">
+          <div className="flex max-h-80 w-full flex-col overflow-y-auto border-b border-slate-200 py-1 lg:w-1/2 lg:border-b-0 lg:border-r">
+            <div className="bg-slate-50 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
               Mốc thời gian
             </div>
             {PRESETS.map((preset) => (
@@ -166,8 +166,8 @@ export const LookerDateRangePicker: React.FC<LookerDateRangePickerProps> = ({
                 key={preset.value}
                 onClick={() => handlePresetClick(preset.value)}
                 className={clsx(
-                  "flex items-center justify-between w-full text-left px-4 py-2 text-sm",
-                  tempType === preset.value ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-700 hover:bg-gray-100"
+                  "flex w-full items-center justify-between px-4 py-2 text-left text-sm",
+                  tempType === preset.value ? "bg-blue-50 font-semibold text-blue-700" : "text-slate-700 hover:bg-slate-100"
                 )}
               >
                 {preset.label}
@@ -177,42 +177,42 @@ export const LookerDateRangePicker: React.FC<LookerDateRangePickerProps> = ({
           </div>
 
           {/* Custom Date Inputs & Actions */}
-          <div className="w-full lg:w-1/2 p-4 bg-gray-50 flex flex-col justify-between">
+          <div className="flex w-full flex-col justify-between bg-slate-50 p-4 lg:w-1/2">
             <div className="flex-1">
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Từ ngày</label>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Từ ngày</label>
                   <input 
                     type="date" 
                     value={tempCustom[0]}
                     onChange={(e) => handleDateChange(0, e.target.value)}
-                    className="w-full px-3 py-2 border border-blue-100 bg-white shadow-sm rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-xl border border-blue-100 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Đến ngày</label>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Đến ngày</label>
                   <input 
                     type="date" 
                     min={tempCustom[0]}
                     value={tempCustom[1]}
                     onChange={(e) => handleDateChange(1, e.target.value)}
-                    className="w-full px-3 py-2 border border-blue-100 bg-white shadow-sm rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full rounded-xl border border-blue-100 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="pt-4 border-t border-gray-200 mt-4 flex justify-end gap-2">
+            <div className="mt-4 flex justify-end gap-2 border-t border-slate-200 pt-4">
                <button 
                  onClick={() => setIsOpen(false)}
-                 className="px-4 py-1.5 text-sm rounded bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                 className="rounded-lg border border-slate-300 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
                >
                  Cancel
                </button>
                <button 
                  onClick={handleApply}
-                 className="px-4 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 font-medium shadow-sm"
+                 className="rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
                >
                  Apply
                </button>

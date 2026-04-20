@@ -11,14 +11,14 @@ function formatVND(value: number): string {
 }
 
 const COLORS = [
-  '#4285F4', // Google Blue
-  '#FBBC05', // Google Yellow
-  '#EA4335', // Google Red
-  '#00BCD4', // Cyan
-  '#34A853', // Google Green
-  '#F48FB1', // Light Pink
-  '#FF9800', // Orange
-  '#9C27B0'  // Purple
+  '#2563eb',
+  '#0ea5e9',
+  '#22c55e',
+  '#f97316',
+  '#a855f7',
+  '#ef4444',
+  '#14b8a6',
+  '#64748b',
 ];
 
 interface ChartBoxProps {
@@ -32,7 +32,7 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden flex flex-col items-center justify-center h-[300px] text-gray-400">
+      <div className="flex h-[300px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-400 shadow-md shadow-slate-200/70">
         <p className="text-sm font-semibold mb-2">{title}</p>
         <p className="text-xs">Không có dữ liệu</p>
       </div>
@@ -53,11 +53,12 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
   });
 
   return (
-    <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[300px]">
-      <div className="bg-[#f0f4f8] text-center py-2 font-bold text-[#002060] border-b border-gray-200 text-sm shrink-0">
-        {title}
+    <div className="flex h-[300px] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-md shadow-slate-200/70">
+      <div className="shrink-0 border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-blue-50/40 px-4 py-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Phân rã</p>
+        <h3 className="mt-1 text-sm font-extrabold tracking-tight text-slate-900">{title}</h3>
       </div>
-      <div className="flex-1 w-full flex flex-row items-center justify-center p-2">
+      <div className="flex h-full w-full flex-1 flex-row items-center justify-center p-2">
         {/* Left 50% for strictly the Pie Chart */}
         <div className="w-[50%] h-full flex justify-center items-center">
           <PieChart
@@ -66,11 +67,11 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
                 data: muiData,
                 outerRadius: 105,
                 innerRadius: 0,
-                paddingAngle: 1, 
-                cornerRadius: 3, 
+                paddingAngle: 1,
+                cornerRadius: 3,
                 arcLabel: (item) => `${((item.value / total) * 100).toFixed(0)}%`,
-                arcLabelMinAngle: 15, 
-                valueFormatter: (item: any) => {
+                arcLabelMinAngle: 15,
+                valueFormatter: (item: number | { value?: number }) => {
                   const val = typeof item === 'number' ? item : item?.value;
                   return val !== undefined && val !== null ? formatVND(val) : '';
                 },
@@ -91,17 +92,17 @@ const ChartBox: React.FC<ChartBoxProps> = ({ title, dimension, data }) => {
         <div className="w-[50%] h-full flex flex-col justify-center px-4 overflow-y-auto">
           <div className="flex flex-col gap-1.5">
             {muiData.map((d) => (
-              <div 
-                key={d.id} 
-                className="flex items-center text-[12px] text-gray-800 cursor-pointer hover:bg-gray-100 p-1 rounded transition-colors"
+              <div
+                key={d.id}
+                className="flex cursor-pointer items-center rounded p-1 text-[12px] text-slate-800 transition-colors hover:bg-slate-100"
                 onClick={() => toggleFilter(dimension, d.label)}
               >
-                <span 
-                  className="w-2.5 h-2.5 rounded-full shrink-0 mr-2.5 shadow-sm transition-all"
+                <span
+                  className="mr-2.5 h-2.5 w-2.5 shrink-0 rounded-full shadow-sm transition-all"
                   style={{ backgroundColor: d.color, opacity: filters[dimension] && filters[dimension] !== d.label ? 0.3 : 1 }}
                 ></span>
-                <span 
-                  className={`font-semibold truncate transition-all ${filters[dimension] === d.label ? 'text-blue-700' : ''}`} 
+                <span
+                  className={`font-semibold truncate transition-all ${filters[dimension] === d.label ? 'text-blue-700' : ''}`}
                   title={d.label}
                   style={{ opacity: filters[dimension] && filters[dimension] !== d.label ? 0.4 : 1 }}
                 >
@@ -128,7 +129,7 @@ interface DashboardPieChartsProps {
 
 export const DashboardPieCharts: React.FC<DashboardPieChartsProps> = ({ pieCharts }) => {
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    <div className="mb-1 grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
       <ChartBox title="Sản phẩm" dimension="products" data={pieCharts.product} />
       <ChartBox title="Thời hạn" dimension="durations" data={pieCharts.duration} />
       <ChartBox title="Nhà bảo hiểm" dimension="providers" data={pieCharts.provider} />
