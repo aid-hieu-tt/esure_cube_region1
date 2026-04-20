@@ -12,10 +12,8 @@ export const RegionPerformanceTable: React.FC<RegionPerformanceTableProps> = ({ 
   const [currentPage, setCurrentPage] = useState(0);
   const { filters, toggleFilter } = useCrossFilter();
 
-  if (!data || data.length === 0) return null;
-
   const filteredData = React.useMemo(() => {
-    let result = data;
+    let result = data || [];
     if (filters['branchCodes']) {
       result = result.filter(r => r.region === filters['branchCodes']);
     }
@@ -25,6 +23,8 @@ export const RegionPerformanceTable: React.FC<RegionPerformanceTableProps> = ({ 
   const pageSize = 10;
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const currentData = filteredData.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  if (!data || data.length === 0) return null;
 
   const getCompletionColor = (rate: number) => {
     if (rate >= 100) return 'text-green-600 bg-green-50';

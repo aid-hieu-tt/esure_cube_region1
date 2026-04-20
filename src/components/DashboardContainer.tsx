@@ -24,7 +24,7 @@ type DashboardSectionProps = {
 
 const DashboardSection: React.FC<DashboardSectionProps> = ({ eyebrow, title, description, children }) => {
   return (
-    <section className="rounded-3xl border border-slate-200/80 bg-white/70 p-4 shadow-sm shadow-slate-200/60 backdrop-blur md:p-5">
+    <section className="relative z-10 rounded-3xl border border-slate-200/80 bg-white/70 p-4 shadow-sm shadow-slate-200/60 backdrop-blur md:p-5">
       <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">{eyebrow}</p>
