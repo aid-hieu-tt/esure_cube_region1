@@ -44,7 +44,9 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleToggleOption = (id: string) => {
+  const handleToggleOption = (id: string, metric?: number) => {
+    if (metric === 0) return;
+    
     if (selectedIds.includes(id)) {
       onChange(selectedIds.filter(selectedId => selectedId !== id));
     } else {
@@ -53,10 +55,13 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   };
 
   const handleToggleAll = () => {
-    if (selectedIds.length === options.length) {
+    // Only count selectable options
+    const selectableOptions = options.filter(opt => opt.metric === undefined || opt.metric > 0);
+    
+    if (selectedIds.length === selectableOptions.length && selectableOptions.length > 0) {
       onChange([]);
     } else {
-      onChange(options.map(opt => opt.id));
+      onChange(selectableOptions.map(opt => opt.id));
     }
   };
 
@@ -122,16 +127,18 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
             <div className="my-1 h-px bg-slate-200"></div>
             {options.map(option => {
               const isSelected = selectedIds.includes(option.id);
+              const isDisabled = option.metric === 0;
               return (
-                <label key={option.id} className="flex cursor-pointer items-center rounded-lg px-2 py-1.5 hover:bg-slate-50">
-                  <div className="relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-slate-300 bg-white">
+                <label key={option.id} className={`flex items-center rounded-lg px-2 py-1.5 ${isDisabled ? 'cursor-not-allowed opacity-50 bg-slate-50/50' : 'cursor-pointer hover:bg-slate-50'}`}>
+                  <div className={`relative mr-2 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border ${isDisabled ? 'border-slate-200 bg-slate-100' : 'border-slate-300 bg-white'}`}>
                     <input
                       type="checkbox"
-                      className="absolute opacity-0 cursor-pointer w-full h-full"
+                      className={`absolute opacity-0 w-full h-full ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                       checked={isSelected}
-                      onChange={() => handleToggleOption(option.id)}
+                      disabled={isDisabled}
+                      onChange={() => handleToggleOption(option.id, option.metric)}
                     />
-                    {isSelected && (
+                    {isSelected && !isDisabled && (
                       <div className="flex h-full w-full items-center justify-center rounded bg-blue-500">
                         <Check size={12} className="text-white" />
                       </div>
@@ -141,6 +148,11 @@ export const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
                   {option.metric !== undefined && option.metric > 0 && (
                     <span className="ml-2 whitespace-nowrap text-xs font-medium text-slate-500">
                       {formatMetric(option.metric)}
+                    </span>
+                  )}
+                  {isDisabled && (
+                    <span className="ml-2 whitespace-nowrap text-[10px] uppercase font-bold text-slate-400">
+                      0đ
                     </span>
                   )}
                 </label>
