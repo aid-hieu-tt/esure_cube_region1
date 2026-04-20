@@ -10,8 +10,8 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenSettings, onDateChange, dateValue }) => {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/80 p-4 shadow-lg shadow-slate-200/80 backdrop-blur md:p-5">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/70 via-white/0 to-indigo-50/60" />
+    <div className="relative z-30 overflow-visible rounded-3xl border border-white/70 bg-white/80 p-4 shadow-lg shadow-slate-200/80 backdrop-blur md:p-5">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/70 via-white/0 to-indigo-50/60 rounded-3xl overflow-hidden" />
       <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-blue-400/10 blur-2xl" />
       <div className="pointer-events-none absolute -bottom-28 -left-28 h-64 w-64 rounded-full bg-indigo-400/10 blur-2xl" />
 
