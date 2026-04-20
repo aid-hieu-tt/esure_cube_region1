@@ -4,11 +4,14 @@
  */
 
 import { DashboardContainer } from './components/DashboardContainer';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 export default function App() {
   return (
     <div className="font-sans antialiased text-slate-900">
-      <DashboardContainer />
+      <ErrorBoundary>
+        <DashboardContainer />
+      </ErrorBoundary>
     </div>
   );
 }

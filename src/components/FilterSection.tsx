@@ -50,7 +50,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
     filters.partners.length;
 
   return (
-    <section className="relative overflow-visible rounded-3xl border border-slate-200/80 bg-white/85 p-4 shadow-md shadow-slate-200/70 backdrop-blur md:p-5">
+    <section className="relative z-20 overflow-visible rounded-3xl border border-slate-200/80 bg-white/85 p-4 shadow-md shadow-slate-200/70 backdrop-blur md:p-5">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/35 to-transparent" />
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
