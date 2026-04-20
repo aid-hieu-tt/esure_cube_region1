@@ -34,8 +34,30 @@ function toOptionsWithMetric(rows: CubeResultRow[], dimKey: string, measureKey: 
       return { val, metric };
     })
     .filter(v => v.val !== '' && v.val !== 'null' && v.val !== 'N/A')
-    .sort((a, b) => b.metric - a.metric) // Sort descending by metric
+    .sort((a, b) => (b.metric || 0) - (a.metric || 0)) // Sort descending by metric
     .map(v => ({ id: v.val, label: v.val, metric: v.metric }));
+}
+
+function combineMasterWithRevenue(
+  masterRows: CubeResultRow[], 
+  revenueRows: CubeResultRow[], 
+  masterDim: string, 
+  revenueDim: string, 
+  measureKey: string
+): FilterOption[] {
+  const metricMap: Record<string, number> = {};
+  for(const r of revenueRows) {
+    const key = String(r[revenueDim] ?? '').trim();
+    if(key) metricMap[key] = Number(r[measureKey] ?? 0);
+  }
+
+  return masterRows
+    .map(r => {
+      const val = String(r[masterDim] ?? '').trim();
+      return { id: val, label: val, metric: metricMap[val] || 0 };
+    })
+    .filter(v => v.label !== '' && v.label !== 'null' && v.label !== 'N/A')
+    .sort((a, b) => (b.metric || 0) - (a.metric || 0));
 }
 
 export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): FilterOptions {
@@ -61,7 +83,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
 
         const regionFilter = { member: 'dashboard_overview.user_agencies_regionName', operator: 'equals', values: ['VIETBANK Miền Nam'] };
 
-        const [cityRows, statusRows, productRows, catRows, durationRows, providerRows, paymentRows, branchRows] = await Promise.all([
+        const [cityRows, statusRows, productRows, catRows, durationRows, providerRows, paymentRows, revenueBranchesRows, branchRows] = await Promise.all([
           cubeLoad({
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.agencies_name'],
@@ -117,7 +139,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 50,
           }),
-          // Only fetch branches belonging to Vùng 1
+          // Fetch total revenue for branches in Vùng 1
           cubeLoad({
             measures: ['dashboard_overview.totalRevenue'],
             dimensions: ['dashboard_overview.user_agencies_branchName'],
@@ -125,6 +147,12 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
             timeDimensions: [orderTimeDim],
             order: { 'dashboard_overview.totalRevenue': 'desc' },
             limit: 40,
+          }),
+          // Fetch all branches (including those without sales) from the branches cube directly
+          cubeLoad({
+            dimensions: ['branches.name'],
+            filters: [{ member: 'regions.name', operator: 'equals', values: ['VIETBANK Miền Nam'] }],
+            limit: 200,
           }),
         ]);
 
@@ -138,7 +166,7 @@ export function useCubeFilterOptions(dateRange: DateRangeValue = 'This month'): 
           providers: toOptionsWithMetric(providerRows, 'dashboard_overview.order_items_providerName', 'dashboard_overview.order_items_totalRevenue'),
           paymentMethods: toOptionsWithMetric(paymentRows, 'dashboard_overview.paymentmethod', 'dashboard_overview.totalRevenue'),
           regions: [], // Not used in Vùng 1 dashboard
-          branches: toOptionsWithMetric(branchRows, 'dashboard_overview.user_agencies_branchName', 'dashboard_overview.totalRevenue'),
+          branches: combineMasterWithRevenue(branchRows, revenueBranchesRows, 'branches.name', 'dashboard_overview.user_agencies_branchName', 'dashboard_overview.totalRevenue'),
           loading: false,
         });
       } catch (err) {
