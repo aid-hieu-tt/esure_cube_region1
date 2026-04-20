@@ -282,18 +282,35 @@ export function mapToProviderDailyRevenue(dailyProviderData: CubeResultRow[]): {
 
   const providerNames = Array.from(providerSet).sort();
 
-  // Convert map to sorted array
-  const chartData: ProviderDailyRevenue[] = Array.from(dateMap.entries())
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, providers]) => {
-      const entry: ProviderDailyRevenue = {
-        date: date.substring(5), // MM-DD for display
-      };
-      for (const name of providerNames) {
-        entry[name] = providers[name] || 0;
-      }
-      return entry;
-    });
+  if (dateMap.size === 0) return { chartData: [], providerNames: [] };
+
+  // Fill missing dates from the 1st of the month to the end of the month
+  const dates = Array.from(dateMap.keys()).sort();
+  const minDateStr = dates[0];
+  const minDate = new Date(minDateStr);
+  const startOfMonth = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+  const endOfMonth = new Date(minDate.getFullYear(), minDate.getMonth() + 1, 0);
+  // Ensure we at least show up to today if we're in the current month
+  const today = new Date();
+  const finalEndDate = (today.getMonth() === endOfMonth.getMonth() && today.getFullYear() === endOfMonth.getFullYear()) ? today : endOfMonth;
+
+  const chartData: ProviderDailyRevenue[] = [];
+  for (let d = new Date(startOfMonth); d <= finalEndDate; d.setDate(d.getDate() + 1)) {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const dateKey = `${yyyy}-${mm}-${dd}`;
+    
+    const entry: ProviderDailyRevenue = {
+      date: dateKey.substring(5), // MM-DD
+    };
+    
+    const dayData = dateMap.get(dateKey) || {};
+    for (const name of providerNames) {
+      entry[name] = dayData[name] || 0;
+    }
+    chartData.push(entry);
+  }
 
   return { chartData, providerNames };
 }
