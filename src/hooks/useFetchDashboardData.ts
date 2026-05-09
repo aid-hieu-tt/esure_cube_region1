@@ -188,8 +188,8 @@ export const useFetchDashboardData = (
 
     fetchData();
 
-    // Auto-refresh every 60 seconds
-    const interval = setInterval(fetchData, 300_000); // 5 phút
+    // Auto-refresh every 30 minutes
+    const interval = setInterval(fetchData, 1800_000); // 30 phút
     return () => clearInterval(interval);
   }, [
     dateRange ? JSON.stringify(dateRange) : null,
